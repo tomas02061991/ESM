@@ -5,20 +5,15 @@
 
 
 static const char filename[] = "ECG.txt";
-int bookmark;
+int bookmark = 0;
 
 int getNextData(){
 	FILE *file = fopen ( filename, "r" );
 	int data;
 	fseek(file, bookmark, SEEK_SET);
+
 	if(bookmark == 0){
-		int d1,d2,d3;
-		fscanf(file,"%i",&d1);
-		fscanf(file,"%i",&d2);
-		fscanf(file,"%i",&d3);
-		bookmark = ftell(file);
-		int d[3] = {d1,d2,d3};
-		return d;
+
 	}
 
 	if(fscanf(file,"%i",&data) != EOF){
@@ -28,8 +23,40 @@ int getNextData(){
 	return 0;
 }
 
+int lowPassFilter(int data){
+	return 0;
+}
+
+int highPassFilter(int data){
+	return 0;
+}
+
+int derivativeFilter(int data){
+	return 0;
+}
+
+int squaringFilter(int data){
+	return 0;
+}
+
+int movingWindowIntegration(int data){
+	return 0;
+}
+
+int filterData(int data){
+	data = lowPassFilter(data);
+	data = highPassFilter(data);
+	data = derivativeFilter(data);
+	data = squaringFilter(data);
+	data = movingWindowIntegration(data);
+	return data;
+}
+
 
 int main(){
 	printf("%d",getNextData());
+	printf("%d",getNextData());
+	printf("%d",getNextData());
+	return 0;
 }
 
