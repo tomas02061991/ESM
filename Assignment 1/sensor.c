@@ -73,6 +73,86 @@ void filterData(int data){
 		else dataBuffer[i] = dataBuffer[i-1];
 	}
 }
+//create new array to save peaks in
+int peakarray[] = new array;
+//search for local maxima
+while(data != null){
+//save data point from the filters in array
+	//add data to peakarray if data is a local maximum point
+	//The acording to 1.4 print it so user can see it
+		if(previousdata < data && data > nextdata){
+			peakarray.add(data);
+			int peak = data;
+			print(peak);
+			print(time);
+			print(time between this peak and the last);
+		}
+}
+
+//create variables
+//SPKF = estimate of R-peak value
+int SPKF = peak;
+int NPKF = 0.125*peak + 0.875*1;
+int THRESHOLD1 = NPKF+0.25*(SPKF-NPKF);
+int THRESHOLD2 = 0.5*THRESHOLD1;
+int RR_AVERAGE1 = average of last 8 values added average array;
+int RR_AVERAGE2 = average of last 8 values of average array 2;
+int RR_LOW = RR_AVERAGE2 * 92%;
+int RR_HIGH = RR_AVERAGE2 * 116%;
+int RR_MISS = RR_AVERAGE2 * 166%;
+averagearray1[] = new array;
+averagearray2[] = new array;
+int missedintervalcounter = 0;
+
+//Make a loob to compare a datapoint peak to these variables
+while(peak != null){
+	if(peak > RR_LOW && peak < RR_HIGH){
+		missedintervalcounter = 0;
+		if(peak > TRESHOLD1){
+			averagearray2.add(peak);
+			SPKF = 0.125 * peak + 0.875 * SPKF;
+			THRESHOLD1 = NPKF + 0.25 * (SPKF - NPKF);
+			THRESHOLD2 = 0.5 * THRESHOLD1;
+			else{
+				averagearray1.add(peak);
+				THRESHOLD1 = NPKF + 0.25 * (SPKF - NPKF);
+				THRESHOLD2 = 0.5 * THRESHOLD1;
+				NPKF = 0.125 * peak + 0.875 * NPKF;
+			}
+		}else if(peak > RR_MISS){
+			//increment counter
+			missedintervalcounter = ++;
+			if(missedintervalcounter = 5){
+				print("warning missed peak interval");
+			}
+		//iterate through peakarray until a value greater
+		//than TRESHOLD2 has been found
+			//start at the end of the array
+			int peak1 = peakarray[endofarray];
+			while(peak1 < TRESHOLD2){
+				peak1 = indexofpeakarray-1;
+			}
+			averagearray1.add(peak1);
+			averagearray2.add(peak1);
+			RR_AVERAGE1 = average of last 8 values added average array;
+			RR_AVERAGE2 = average of last 8 values of average array 2;
+			RR_LOW = RR_AVERAGE2 * 92%;
+			RR_HIGH = RR_AVERAGE2 * 116%;
+			RR_MISS = RR_AVERAGE2 * 166%;
+			THRESHOLD1 = NPKF + 0.25 * (SPKF - NPKF);
+			THRESHOLD2 = 0.5 * THRESHOLD1;
+			SPKF = 0.25 * y + 0.75*SPKF;
+		}else{
+			missedintervalcounter = ++;
+				if(missedintervalcounter = 5){
+					print("warning missed peak interval");
+				}
+				if(peak < 2000){
+					print("peak below 2000")
+				}
+		}	
+	}
+}
 
 
 int main(){
