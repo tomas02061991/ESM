@@ -10,6 +10,11 @@ int bookmark = 0;
 int dataBuffer[32];
 int lowPassBuffer[2];
 int highPassBuffer[1];
+//create new array to save peaks in
+int peakArray[30];
+int peak;
+int averagearray1[8];
+int averagearray2[8];
 
 int getNextData(){
 	FILE *file = fopen ( filename, "r" );
@@ -73,20 +78,22 @@ void filterData(int data){
 		else dataBuffer[i] = dataBuffer[i-1];
 	}
 }
-//create new array to save peaks in
-int peakarray[] = new array;
+
+void findPeak(){
 //search for local maxima
-while(data != null){
-//save data point from the filters in array
-	//add data to peakarray if data is a local maximum point
-	//The acording to 1.4 print it so user can see it
-		if(previousdata < data && data > nextdata){
-			peakarray.add(data);
-			int peak = data;
-			print(peak);
-			print(time);
-			print(time between this peak and the last);
+	for(int i=0;i<31;i++){
+		//save data point from the filters in array
+		//add data to peakarray if data is a local maximum point
+		//The acording to 1.4 print it so user can see it
+		if(dataBuffer[i-1] < dataBuffer[i] && dataBuffer[i] > dataBuffer[i+1] && dataBuffer[i]!=0){
+			for(int j=29;j>=0;j--){
+						if(j==0) peakArray[j] = dataBuffer[i];
+						else peakArray[j] = peakArray[j-1];
+					}
+			peak = dataBuffer[i];
 		}
+	}
+
 }
 
 //create variables
@@ -100,12 +107,10 @@ int RR_AVERAGE2 = average of last 8 values of average array 2;
 int RR_LOW = RR_AVERAGE2 * 92%;
 int RR_HIGH = RR_AVERAGE2 * 116%;
 int RR_MISS = RR_AVERAGE2 * 166%;
-averagearray1[] = new array;
-averagearray2[] = new array;
 int missedintervalcounter = 0;
 
 //Make a loob to compare a datapoint peak to these variables
-while(peak != null){
+while(peak != 0){
 	if(peak > RR_LOW && peak < RR_HIGH){
 		missedintervalcounter = 0;
 		if(peak > TRESHOLD1){
@@ -152,6 +157,9 @@ while(peak != null){
 				}
 		}	
 	}
+	print(peak);
+	print(time);
+	print(time between this peak and the last);
 }
 
 
