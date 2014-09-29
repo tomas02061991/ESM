@@ -18,10 +18,6 @@ int getNextData(){
 	fseek(file, bookmark, SEEK_SET);
 	if(fscanf(file,"%i",&data) != EOF){
 		bookmark = ftell(file);
-		for(int i=31;i>=0;i--){
-					if(i==0) dataBuffer[i] = data;
-					else dataBuffer[i] = dataBuffer[i-1];
-				}
 		return data;
 	}
 	return 0;
@@ -48,24 +44,34 @@ int highPassFilter(int data){
 }
 
 int derivativeFilter(int data){
-	return 0;
+	int x_der;
+	x_der =1/8(2*data-dataBuffer[0]-dataBuffer[2]-2*dataBuffer[3]);
+	return x_der;
 }
 
 int squaringFilter(int data){
-	return 0;
+	return sqrt(data);
 }
 
 int movingWindowIntegration(int data){
-	return 0;
+	int x;
+	for(int i=30;i>0;i--) x+=dataBuffer[i-1];
+	int x_mov = 1/30*x;
+
+	return x_mov;
 }
 
-int filterData(int data){
+void filterData(int data){
+	data = getNextData();
 	data = lowPassFilter(data);
 	data = highPassFilter(data);
 	data = derivativeFilter(data);
 	data = squaringFilter(data);
 	data = movingWindowIntegration(data);
-	return data;
+	for(int i=31;i>0;i--){
+		if(i==0) dataBuffer[i] = data;
+		else dataBuffer[i] = dataBuffer[i-1];
+	}
 }
 
 
