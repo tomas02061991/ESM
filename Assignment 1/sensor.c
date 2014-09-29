@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "sensor.h"
 #include <time.h>
-typedef struct dataPoint dataPoint;
+
 
 
 static const char filename[] = "ECG.txt";
