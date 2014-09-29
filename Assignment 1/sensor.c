@@ -15,6 +15,8 @@ int peakArray[30];
 int peak;
 int averagearray1[8];
 int averagearray2[8];
+int RR_AVERAGE1;
+int RR_AVERAGE2;
 
 int getNextData(){
 	FILE *file = fopen ( filename, "r" );
@@ -37,7 +39,7 @@ int lowPassFilter(int data){
 	for(int i=1;i>=0;i--){
 			if(i==0) lowPassBuffer[i] = x_low;
 			else lowPassBuffer[i] = lowPassBuffer[i-1];
-		}
+	}
 	return x_low;
 }
 
@@ -96,17 +98,26 @@ void findPeak(){
 
 }
 
+void setAverage(){
+	int average1, average2;
+	for(int i=0; i<8;i++){
+		average1 +=averagearray1[i];
+		average2 +=averagearray2[i];
+	}
+	RR_AVERAGE1 = average1/8;
+	RR_AVERAGE2 = average2/8;
+}
+
 //create variables
 //SPKF = estimate of R-peak value
 int SPKF = peak;
 int NPKF = 0.125*peak + 0.875*1;
 int THRESHOLD1 = NPKF+0.25*(SPKF-NPKF);
 int THRESHOLD2 = 0.5*THRESHOLD1;
-int RR_AVERAGE1 = average of last 8 values added average array;
-int RR_AVERAGE2 = average of last 8 values of average array 2;
-int RR_LOW = RR_AVERAGE2 * 92%;
-int RR_HIGH = RR_AVERAGE2 * 116%;
-int RR_MISS = RR_AVERAGE2 * 166%;
+
+int RR_LOW = RR_AVERAGE2 * 0.92;
+int RR_HIGH = RR_AVERAGE2 * 1.16;
+int RR_MISS = RR_AVERAGE2 * 1.66;
 int missedintervalcounter = 0;
 
 //Make a loob to compare a datapoint peak to these variables
@@ -133,7 +144,21 @@ while(peak != 0){
 		//iterate through peakarray until a value greater
 		//than TRESHOLD2 has been found
 			//start at the end of the array
-			int peak1 = peakarray[endofarray];
+			for(int i=29; i>=0; i--){
+				if(peakArray[i]>threshold2){
+					for(int j=7;j>=0;j--){
+							if(i==0){
+								averagearray1[j] = peakArray[i];
+								averagearray2[j] = peakArray[i];
+							}
+							else{
+								averagearray1[i] = averagearray1[i-1];
+								averagearray2[i] = averagearray2[i-1];
+							}
+					}
+				}
+			}
+
 			while(peak1 < TRESHOLD2){
 				peak1 = indexofpeakarray-1;
 			}
